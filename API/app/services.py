@@ -1,6 +1,7 @@
 import numpy as np
 from .repositories import save_vector
 from uuid import uuid4
+from .repositories import fetch_all_records
 
 def generate_vector(description: str) -> list:
     vector = [ord(char) / 255.0 for char in description][:300]
@@ -17,3 +18,8 @@ def process_item(item):
 
 def generate_id():
     return str(uuid.uuid4())
+
+def get_all_records_service():
+    """Service function to retrieve records from the repository."""
+    records = fetch_all_records() # Exception is automatically handled by decorators
+    return { "success": True, "records": records }

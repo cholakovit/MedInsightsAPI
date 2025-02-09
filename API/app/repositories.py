@@ -55,3 +55,13 @@ def validate_id(id):
         except ValueError:
             raise ValueError("Invalid ID: must be an unsigned integer or a UUID")
         
+def fetch_all_records():
+    """Retrieve all records from the Qdrant collection."""
+    result = client.scroll(
+        collection_name="medinsights",
+        with_payload=True,
+        with_vectors=True,
+        limit=100  # Adjust limit as needed
+    )
+    return result[0] # results[0] contains the points
+        
