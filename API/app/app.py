@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from .schemas import ItemSchema, ResponseSchema
-from .services import process_item, get_all_records_service
-from .repositories import client
-from .error_handlers import AppException
-from .decorators import handle_exceptions  # Import the decorator
+from .schemas.schemas import ItemSchema, ResponseSchema
+from .services.services import process_item, get_all_records_service
+from .repositories.repositories import client
+from .helper.error_handlers import AppException
+from .helper.decorators import handle_exceptions  # Import the decorator
 
 app = FastAPI()
 

@@ -1,13 +1,18 @@
 import numpy as np
-from .repositories import save_vector
+from ..repositories.repositories import save_vector
 from uuid import uuid4
-from .repositories import fetch_all_records
+from ..repositories.repositories import fetch_all_records
+from sentence_transformers import SentenceTransformer
+
+# Load MPNet model once (global variable to avoid reloading on every request)
+mpnet_model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 
 def generate_vector(description: str) -> list:
-    vector = [ord(char) / 255.0 for char in description][:300]
-    if len(vector) < 300:  # Pad vector to match the required size
-        vector += [0.0] * (300 - len(vector))
-    print(f"Generated vector (length: {len(vector)}): {vector[:5]}...")
+    """
+    Generate a semantic embedding vector using MPNet.
+    """
+    vector = mpnet_model.encode(description)  # Generates a 768-dim vector
+    print(f"Generated vector (length: {len(vector)}): {vector[:5]}...")  # Print first 5 values
     return np.array(vector, dtype=np.float32).tolist()
 
 def process_item(item):
